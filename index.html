@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity System - Content Empire</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        body { background-color: #0F172A; color: #F8FAFC; }
+        .card { background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; }
+        .card-hover:hover { 
+            box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+            transition: all 0.3s ease;
+        }
+        .gradient-text { 
+            background: linear-gradient(135deg, #6366F1, #10B981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
+        .progress-bar { background: linear-gradient(90deg, #6366F1, #10B981); }
+        .hide { display: none !important; }
+        .page { animation: fadeIn 0.3s ease-in; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+        .status-green { background-color: #10B981; box-shadow: 0 0 8px #10B981; }
+        .status-yellow { background-color: #F59E0B; box-shadow: 0 0 8px #F59E0B; }
+        .status-red { background-color: #EF4444; box-shadow: 0 0 8px #EF4444; }
+        .sidebar-link { transition: all 0.2s; }
+        .sidebar-link:hover, .sidebar-link.active { 
+            background-color: rgba(99, 102, 241, 0.1); 
+            border-left: 3px solid #6366F1;
+            color: #6366F1;
+        }
+        .btn-primary { 
+            background: linear-gradient(135deg, #6366F1, #4F46E5);
+            transition: all 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 20px -5px rgba(99, 102, 241, 0.4); }
+        .glass { background: rgba(30, 41, 59, 0.8); backdrop-filter: blur(10px); }
+    </style>
+</head>
+<body class="min-h-screen">
+
+    <!-- LOGIN PAGE -->
+    <div id="page-login" class="page min-h-screen flex items-center justify-center p-4">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="text-6xl mb-4">🤖</div>
+                <h1 class="text-3xl font-bold gradient-text mb-2">Infinity System</h1>
+                <p class="text-slate-400">Build Your Content Empire</p>
+            </div>
+            
+            <div class="card p-8">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Email</label>
+                    <input type="email" placeholder="you@email.com" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Password</label>
+                    <input type="password" placeholder="••••••••" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-indigo-500">
+                </div>
+                
+                <div class="flex items-center mb-6">
+                    <input type="checkbox" id="remember" class="mr-2 w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-500">
+                    <label for="remember" class="text-sm text-slate-400">Remember me</label>
+                </div>
+                
+                <button onclick="showPage('dashboard')" class="btn-primary w-full py-3 rounded-lg font-semibold text-white mb-4">
+                    <i class="fas fa-lock mr-2"></i>Sign In
+                </button>
+                
+                <div class="relative my-6">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-700"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-2 bg-slate-800 text-slate-500">OR</span>
+                    </div>
+                </div>
+                
+                <div class="flex gap-3">
+                    <button class="flex-1 bg-slate-900 border border-slate-700 py-3 rounded-lg hover:bg-slate-800 transition">
+                        <i class="fab fa-google text-red-500 mr-2"></i>Google
+                    </button>
+                    <button class="flex-1 bg-slate-900 border border-slate-700 py-3 rounded-lg hover:bg-slate-800 transition">
+                        <i class="fab fa-github mr-2"></i>GitHub
+                    </button>
+                </div>
+                
+                <p class="text-center mt-6 text-slate-500 text-sm">
+                    New here? <a href="#" class="text-indigo-400 hover:text-indigo-300">Create account</a>
+                </p>
+            </div>
+            
+            <p class="text-center mt-8 text-slate-600 text-sm">© 2026 Infinity System</p>
+        </div>
+    </div>
+
+    <!-- MAIN APP LAYOUT -->
+    <div id="app-layout" class="hide flex h-screen">
+        
+        <!-- SIDEBAR -->
+        <aside class="w-64 bg-slate-900 border-r border-slate-800 flex flex-col">
+            <div class="p-6 border-b border-slate-800">
+                <div class="flex items-center gap-3">
+                    <span class="text-2xl">🤖</span>
+                    <div>
+                        <h1 class="font-bold text-lg">Infinity</h1>
+                        <p class="text-xs text-slate-500">v2.0 God Mode</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="flex-1 overflow-y-auto py-4">
+                <a href="#" onclick="showPage('dashboard')" class="sidebar-link active flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white">
+                    <i class="fas fa-chart-line w-5"></i>Dashboard
+                </a>
+                <a href="#" onclick="showPage('content')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white">
+                    <i class="fas fa-video w-5"></i>Content Studio
+                </a>
+                <a href="#" onclick="showPage('money')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white">
+                    <i class="fas fa-rupee-sign w-5"></i>Revenue Center
+                </a>
+                <a href="#" onclick="showPage('analytics')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white">
+                    <i class="fas fa-chart-bar w-5"></i>Analytics Hub
+                </a>
+                <a href="#" onclick="showPage('properties')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white">
+                    <i class="fas fa-globe w-5"></i>Properties
+                </a>
+                <a href="#" onclick="showPage('scheduler')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white">
+                    <i class="fas fa-clock w-5"></i>Scheduler
+                </a>
+                <a href="#" onclick="showPage('ai-studio')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white">
+                    <i class="fas fa-brain w-5"></i>AI Studio
+                </a>
+                <a href="#" onclick="showPage('brands')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white">
+                    <i class="fas fa-handshake w-5"></i>Brand Deals
+                </a>
+                
+                <div class="mt-8 px-6">
+                    <p class="text-xs text-slate-600 uppercase font-semibold mb-3">Optional</p>
+                    <a href="#" onclick="showPage('telegram')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white rounded-lg border border-slate-800">
+                        <i class="fab fa-telegram w-5"></i>Telegram Bot
+                        <span class="ml-auto text-xs bg-slate-800 px-2 py-1 rounded text-slate-500">OFF</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="p-4 border-t border-slate-800">
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-slate-800/50">
+                    <img src="https://ui-avatars.com/api/?name=You&background=6366F1&color=fff" class="w-10 h-10 rounded-full">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium">You</p>
+                        <p class="text-xs text-slate-500">Pro Plan</p>
+                    </div>
+                    <button onclick="showPage('settings')" class="text-slate-400 hover:text-white">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="flex-1 overflow-y-auto bg-slate-950">
+            
+            <!-- TOP BAR -->
+            <header class="glass sticky top-0 z-50 border-b border-slate-800 px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <h2 id="page-title" class="text-xl font-semibold">Dashboard</h2>
+                    <span class="text-sm text-slate-500">|</span>
+                    <span class="text-sm text-slate-400">₹67,340 this month</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="relative p-2 text-slate-400 hover:text-white">
+                        <i class="fas fa-bell"></i>
+                        <span class="absolute top-0 right-0 w-2 h-2 bg-red-500 rounded-full animate-pulse"></span>
+                    </button>
+                    <button onclick="showPage('settings')" class="p-2 text-slate-400 hover:text-white">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button onclick="showPage('login')" class="p-2 text-slate-400 hover:text-red-400">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- DASHBOARD PAGE -->
+            <div id="page-dashboard" class="page p-6">
+                <!-- Stats Row -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="card card-hover p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-slate-400 text-sm">Active Properties</span>
+                            <span class="status-dot status-green"></span>
+                        </div>
+                        <p class="text-3xl font-bold">80</p>
+                        <p class="text-sm text-emerald-400 mt-1"><i class="fas fa-arrow-up mr-1"></i>12 this week</p>
+                    </div>
+                    
+                    <div class="card card-hover p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-slate-400 text-sm">Monthly Earnings</span>
+                            <i class="fas fa-rupee-sign text-indigo-500"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-indigo-400">₹67.3K</p>
+                        <p class="text-sm text-emerald-400 mt-1"><i class="fas fa-arrow-up mr-1"></i>+23% vs last</p>
+                    </div>
+                    
+                    <div class="card card-hover p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-slate-400 text-sm">Today's Views</span>
+                            <i class="fas fa-eye text-blue-500"></i>
+                        </div>
+                        <p class="text-3xl font-bold">145K</p>
+                        <p class="text-sm text-slate-500 mt-1">Across all platforms</p>
+                    </div>
+                    
+                    <div class="card card-hover p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-slate-400 text-sm">Growth Rate</span>
+                            <i class="fas fa-chart-line text-emerald-500"></i>
+                        </div>
+                        <p class="text-3xl font-bold text-emerald-400">+23%</p>
+                        <p class="text-sm text-emerald-400 mt-1">7 day trend</p>
+                    </div>
+                </div>
+
+                <!-- System Status & Quick Actions -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+                    <div class="card p-6 lg:col-span-2">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="font-semibold text-lg">System Status</h3>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-3 py-1 rounded-full">Operational</span>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="text-4xl">😴</div>
+                            <div>
+                                <p class="font-semibold">Smart Sleep Mode</p>
+                                <p class="text-sm text-slate-400">Next wake: 4:00 AM (1h 23m)</p>
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-4 gap-3 mb-6">
+                            <button class="p-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium transition">
+                                <i class="fas fa-bolt mr-2"></i>Force Wake
+                            </button>
+                            <button class="p-3 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-sm transition">
+                                <i class="fas fa-fire mr-2"></i>Beast Mode
+                            </button>
+                            <button class="p-3 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-sm transition">
+                                <i class="fas fa-moon mr-2"></i>Deep Sleep
+                            </button>
+                            <button class="p-3 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-sm transition">
+                                <i class="fas fa-graduation-cap mr-2"></i>College
+                            </button>
+                        </div>
+                        
+                        <div class="space-y-3 text-sm">
+                            <div class="flex justify-between py-2 border-b border-slate-800">
+                                <span class="text-slate-400">AI Brain</span>
+                                <span class="text-emerald-400">🧠 847 patterns learned today</span>
+                            </div>
+                            <div class="flex justify-between py-2 border-b border-slate-800">
+                                <span class="text-slate-400">Trend Hunter</span>
+                                <span>6 sources monitoring</span>
+                            </div>
+                            <div class="flex justify-between py-2">
+                                <span class="text-slate-400">Content Buffer</span>
+                                <span class="text-emerald-400">34 days ready 🟢</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6">
+                        <h3 class="font-semibold text-lg mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button class="w-full p-3 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-left transition flex items-center gap-3">
+                                <i class="fas fa-plus"></i>Create Property
+                            </button>
+                            <button class="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-left transition flex items-center gap-3">
+                                <i class="fas fa-video"></i>New Content
+                            </button>
+                            <button class="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-left transition flex items-center gap-3">
+                                <i class="fas fa-rupee-sign"></i>Withdraw Money
+                            </button>
+                            <button class="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-left transition flex items-center gap-3">
+                                <i class="fas fa-chart-bar"></i>Full Report
+                            </button>
+                            <button class="w-full p-3 rounded-lg bg-slate-800 border border-slate-700 hover:bg-slate-700 text-left transition flex items-center gap-3">
+                                <i class="fas fa-tools"></i>System Check
+                            </button>
+                            <button class="w-full p-3 rounded-lg bg-red-500/20 border border-red-500/50 text-red-400 hover:bg-red-500/30 text-left transition flex items-center gap-3">
+                                <i class="fas fa-exclamation-triangle"></i>Emergency Stop
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Queue -->
+                <div class="card p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="font-semibold text-lg">Active Queue</h3>
+                        <button class="text-sm text-indigo-400 hover:text-indigo-300">View All →</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4 p-4 bg-slate-900/50 rounded-lg">
+                            <div class="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400">
+                                <i class="fas fa-cog fa-spin"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">"Elon Interview Clip"</p>
+                                <p class="text-sm text-slate-400">Rendering 65% • ETA: 12 min • 15 properties</p>
+                                <div class="mt-2 h-2 bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="h-full w-3/5 bg-emerald-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-slate-400 hover:text-white"><i class="fas fa-play"></i></button>
+                                <button class="p-2 text-slate-400 hover:text-white"><i class="fas fa-pause"></i></button>
+                                <button class="p-2 text-slate-400 hover:text-red-400"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 p-4 bg-slate-900/50 rounded-lg">
+                            <div class="w-12 h-12 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">"Tech News Roundup"</p>
+                                <p class="text-sm text-slate-400">Uploading 3/35 • 12 remaining</p>
+                                <div class="mt-2 h-2 bg-slate-800 rounded-full overflow-hidden">
+                                    <div class="h-full w-1/12 bg-amber-500 rounded-full"></div>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-slate-400 hover:text-white"><i class="fas fa-chart-line"></i></button>
+                                <button class="p-2 text-slate-400 hover:text-white"><i class="fas fa-pause"></i></button>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center gap-4 p-4 bg-slate-900/50 rounded-lg">
+                            <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">42 Items Scheduled</p>
+                                <p class="text-sm text-slate-400">Next: 6:00 PM IST</p>
+                            </div>
+                            <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700">Edit</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h3 class="font-semibold text-lg mb-4">Recent Activity</h3>
+                        <div class="space-y-3 text-sm">
+                            <div class="flex items-center gap-3 p-3 bg-slate-900/30 rounded-lg">
+                                <span class="text-emerald-400"><i class="fas fa-arrow-up"></i></span>
+                                <div class="flex-1">
+                                    <p>Uploaded "Tech News #45" to 12 properties</p>
+                                    <p class="text-xs text-slate-500">6:30 PM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-slate-900/30 rounded-lg">
+                                <span class="text-indigo-400"><i class="fas fa-palette"></i></span>
+                                <div class="flex-1">
+                                    <p>AI generated thumbnail (Score: 94%)</p>
+                                    <p class="text-xs text-slate-500">6:15 PM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-slate-900/30 rounded-lg">
+                                <span class="text-amber-400"><i class="fas fa-fire"></i></span>
+                                <div class="flex-1">
+                                    <p>Trend alert: "AI Breakthrough" (96/100)</p>
+                                    <p class="text-xs text-slate-500">5:45 PM</p>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 py-2 text-sm text-slate-400 hover:text-white border border-slate-700 rounded-lg">View All 247</button>
+                    </div>
+                    
+                    <div class="card p-6">
+                        <h3 class="font-semibold text-lg mb-4">Top Properties</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-red-500"><i class="fab fa-youtube"></i></span>
+                                    <div>
+                                        <p class="font-medium">TechHindi</p>
+                                        <p class="text-xs text-emerald-400">↑ 15%</p>
+                                    </div>
+                                </div>
+                                <span class="font-semibold text-emerald-400">₹8.2K</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-pink-500"><i class="fab fa-instagram"></i></span>
+                                    <div>
+                                        <p class="font-medium">GadgetGuru</p>
+                                        <p class="text-xs text-emerald-400">↑ 8%</p>
+                                    </div>
+                                </div>
+                                <span class="font-semibold text-emerald-400">₹4.5K</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-red-500"><i class="fab fa-youtube"></i></span>
+                                    <div>
+                                        <p class="font-medium">FinanceWiz</p>
+                                        <p class="text-xs text-amber-400">↓ 3%</p>
+                                    </div>
+                                </div>
+                                <span class="font-semibold text-amber-400">₹3.8K</span>
+                            </div>
+                        </div>
+                        <button class="w-full mt-4 py-2 text-sm text-slate-400 hover:text-white border border-slate-700 rounded-lg">View All 80</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CONTENT STUDIO PAGE -->
+            <div id="page-content" class="page hide p-6">
+                <div class="card p-6 mb-6">
+                    <h3 class="font-semibold text-lg mb-4">Create New Content</h3>
+                    
+                    <div class="flex gap-2 mb-4">
+                        <button class="px-4 py-2 bg-indigo-600 rounded-lg text-sm">Trending 🔥</button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm text-slate-400">URL 🔗</button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm text-slate-400">Topic 💡</button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm text-slate-400">Script 📝</button>
+                    </div>
+                    
+                    <div class="flex gap-2 mb-4 overflow-x-auto">
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm"><i class="fas fa-microphone mr-2"></i>Podcast</button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm"><i class="fab fa-youtube mr-2"></i>YouTube</button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm"><i class="fab fa-instagram mr-2"></i>Instagram</button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm"><i class="fas fa-newspaper mr-2"></i>News</button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm"><i class="fas fa-gamepad mr-2"></i>Gaming</button>
+                    </div>
+                    
+                    <textarea placeholder="Paste URL or describe topic..." class="w-full h-32 bg-slate-900 border border-slate-700 rounded-lg p-4 mb-4 focus:outline-none focus:border-indigo-500"></textarea>
+                    
+                    <div class="grid grid-cols-3 gap-4 mb-4">
+                        <button class="p-4 bg-gradient-to-br from-indigo-600 to-indigo-800 rounded-lg text-center hover:shadow-lg transition">
+                            <i class="fas fa-fire text-2xl mb-2"></i>
+                            <p class="font-semibold">Auto-Viral</p>
+                            <p class="text-xs text-indigo-200">AI finds viral potential</p>
+                        </button>
+                        <button class="p-4 bg-slate-800 border border-slate-700 rounded-lg text-center hover:bg-slate-700 transition">
+                            <i class="fas fa-bolt text-2xl mb-2 text-amber-400"></i>
+                            <p class="font-semibold">Fast Mode</p>
+                            <p class="text-xs text-slate-400">Skip analysis, 30min</p>
+                        </button>
+                        <button class="p-4 bg-slate-800 border border-slate-700 rounded-lg text-center hover:bg-slate-700 transition">
+                            <i class="fas fa-palette text-2xl mb-2 text-emerald-400"></i>
+                            <p class="font-semibold">Custom Build</p>
+                            <p class="text-xs text-slate-400">You control every step</p>
+                        </button>
+                    </div>
+                </div>
+                
+                <h3 class="font-semibold text-lg mb-4">Active Projects (3)</h3>
+                <div class="space-y-4">
+                    <div class="card p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <p class="font-semibold">#234 "Elon Interview Clip"</p>
+                            <span class="text-xs bg-emerald-500/20 text-emerald-400 px-2 py-1 rounded">Rendering 65%</span>
+                        </div>
+                        <p class="text-sm text-slate-400 mb-3">15 YT + 20 IG • Viral Score: 94/100 🔥</p>
+                        <div class="h-2 bg-slate-800 rounded-full overflow-hidden mb-3">
+                            <div class="h-full w-3/5 bg-emerald-500 rounded-full"></div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-3 py-1 bg-slate-800 rounded text-sm hover:bg-slate-700">Preview</button>
+                            <button class="px-3 py-1 bg-slate-800 rounded text-sm hover:bg-slate-700">Edit</button>
+                            <button class="px-3 py-1 bg-indigo-600 rounded text-sm">Priority ⬆</button>
+                            <button class="px-3 py-1 bg-red-500/20 text-red-400 rounded text-sm">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MONEY PAGE -->
+            <div id="page-money" class="page hide p-6">
+                <div class="card p-6 mb-6">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-slate-400 text-sm">This Month</p>
+                            <p class="text-4xl font-bold gradient-text">₹67,340 <span class="text-lg text-emerald-400">/ ₹50K ✅</span></p>
+                        </div>
+                        <button class="px-6 py-3 bg-emerald-600 rounded-lg font-semibold hover:bg-emerald-500 transition">
+                            <i class="fas fa-rupee-sign mr-2"></i>Withdraw
+                        </button>
+                    </div>
+                    <div class="h-4 bg-slate-800 rounded-full overflow-hidden">
+                        <div class="h-full w-4/5 bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full"></div>
+                    </div>
+                    <p class="text-sm text-slate-400 mt-2">Projected: ₹89,000 • Growth: +23%</p>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="font-semibold text-lg mb-4">Income Breakdown</h3>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fab fa-youtube text-red-500"></i>
+                                <span>YouTube AdSense</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold">₹35,000</p>
+                                <p class="text-xs text-emerald-400">52% ↑ 15%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fab fa-instagram text-pink-500"></i>
+                                <span>Instagram</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold">₹15,000</p>
+                                <p class="text-xs text-emerald-400">22% ↑ 8%</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-link text-indigo-500"></i>
+                                <span>Affiliate</span>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold">₹12,000</p>
+                                <p class="text-xs text-emerald-400">18% ↑ 25%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ANALYTICS PAGE -->
+            <div id="page-analytics" class="page hide p-6">
+                <div class="card p-6 mb-6">
+                    <h3 class="font-semibold text-lg mb-4">Performance Overview</h3>
+                    <div class="h-64 bg-slate-900/50 rounded-lg flex items-center justify-center text-slate-500">
+                        [Chart Placeholder - Views Over 30 Days]
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <h3 class="font-semibold text-lg mb-4">AI Insights</h3>
+                        <div class="space-y-3">
+                            <div class="p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-lg">
+                                <p class="text-sm text-indigo-400 mb-1">💡 THUMBNAIL TIP</p>
+                                <p class="text-sm">Your face in thumbnails = +40% CTR</p>
+                            </div>
+                            <div class="p-3 bg-amber-500/10 border border-amber-500/30 rounded-lg">
+                                <p class="text-sm text-amber-400 mb-1">⚠️ SATURATION ALERT</p>
+                                <p class="text-sm">Finance niche: 15 new competitors</p>
+                            </div>
+                            <div class="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+                                <p class="text-sm text-emerald-400 mb-1">🎯 OPPORTUNITY</p>
+                                <p class="text-sm">"AI News" trending +200%</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6">
+                        <h3 class="font-semibold text-lg mb-4">Competitor Intelligence</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                                <div>
+                                    <p class="font-medium">@TechGamer</p>
+                                    <p class="text-xs text-slate-400">450K subs • Viral 2h ago</p>
+                                </div>
+                                <button class="px-3 py-1 bg-indigo-600 rounded text-sm">Replicate 🔥</button>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                                <div>
+                                    <p class="font-medium">@FinanceGuru</p>
+                                    <p class="text-xs text-slate-400">890K subs • 1 day ago</p>
+                                </div>
+                                <button class="px-3 py-1 bg-slate-800 rounded text-sm">Analyze</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROPERTIES PAGE -->
+            <div id="page-properties" class="page hide p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-semibold text-lg">Properties (80 Active)</h3>
+                    <button class="px-4 py-2 bg-indigo-600 rounded-lg hover:bg-indigo-500">
+                        <i class="fas fa-plus mr-2"></i>New Property
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <div class="card p-4 card-hover">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fab fa-youtube text-red-500"></i>
+                                <span class="font-medium">TechHindi</span>
+                            </div>
+                            <span class="status-dot status-green"></span>
+                        </div>
+                        <p class="text-2xl font-bold text-emerald-400 mb-1">₹8.2K</p>
+                        <p class="text-sm text-slate-400 mb-3">125K subs • 450K views/mo</p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 py-2 bg-slate-800 rounded text-sm hover:bg-slate-700">Analytics</button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded text-sm hover:bg-slate-700">Content</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4 card-hover">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fab fa-instagram text-pink-500"></i>
+                                <span class="font-medium">GadgetGuru</span>
+                            </div>
+                            <span class="status-dot status-green"></span>
+                        </div>
+                        <p class="text-2xl font-bold text-emerald-400 mb-1">₹4.5K</p>
+                        <p class="text-sm text-slate-400 mb-3">89K fol • 320K reach/mo</p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 py-2 bg-slate-800 rounded text-sm hover:bg-slate-700">Analytics</button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded text-sm hover:bg-slate-700">Content</button>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-4 card-hover border-amber-500/30">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <i class="fab fa-youtube text-red-500"></i>
+                                <span class="font-medium">FinanceWiz</span>
+                            </div>
+                            <span class="status-dot status-yellow"></span>
+                        </div>
+                        <p class="text-2xl font-bold text-amber-400 mb-1">₹3.8K</p>
+                        <p class="text-sm text-slate-400 mb-3">45K subs • 180K views/mo</p>
+                        <div class="flex gap-2">
+                            <button class="flex-1 py-2 bg-amber-500/20 text-amber-400 rounded text-sm">🔧 Fix</button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded text-sm hover:bg-slate-700">Content</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SCHEDULER PAGE -->
+            <div id="page-scheduler" class="page hide p-6">
+                <div class="card p-6 mb-6">
+                    <h3 class="font-semibold text-lg mb-4">System Modes</h3>
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="p-4 bg-indigo-600/20 border-2 border-indigo-500 rounded-lg text-center">
+                            <p class="text-3xl mb-2">😴</p>
+                            <p class="font-semibold">Smart Sleep</p>
+                            <p class="text-xs text-slate-400 mt-1">4 hrs/day • Low cost</p>
+                            <p class="text-xs text-indigo-400 mt-2">● Active</p>
+                        </div>
+                        <div class="p-4 bg-slate-800 border border-slate-700 rounded-lg text-center opacity-60">
+                            <p class="text-3xl mb-2">⚡</p>
+                            <p class="font-semibold">Balanced</p>
+                            <p class="text-xs text-slate-400 mt-1">8 hrs/day • Medium</p>
+                        </div>
+                        <div class="p-4 bg-slate-800 border border-slate-700 rounded-lg text-center opacity-60">
+                            <p class="text-3xl mb-2">🔥</p>
+                            <p class="font-semibold">Beast Mode</p>
+                            <p class="text-xs text-slate-400 mt-1">24/7 • High cost</p>
+                        </div>
+                        <div class="p-4 bg-slate-800 border border-slate-700 rounded-lg text-center opacity-60">
+                            <p class="text-3xl mb-2">🎓</p>
+                            <p class="font-semibold">College</p>
+                            <p class="text-xs text-slate-400 mt-1">Minimal • Exam ready</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="font-semibold text-lg mb-4">Tomorrow's Timeline (April 8)</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center gap-4">
+                            <div class="w-20 text-sm text-slate-400">3:30 AM</div>
+                            <div class="flex-1 h-px bg-slate-700"></div>
+                            <div class="flex-1 p-3 bg-slate-900/50 rounded-lg">
+                                <p class="font-medium">Wake & API Check</p>
+                                <p class="text-xs text-slate-400">5 min • [Edit] [Disable]</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-20 text-sm text-slate-400">4:00 AM</div>
+                            <div class="flex-1 h-px bg-indigo-500"></div>
+                            <div class="flex-1 p-3 bg-indigo-500/10 border border-indigo-500/30 rounded-lg">
+                                <p class="font-medium text-indigo-400">🔥 TREND HUNT</p>
+                                <p class="text-xs text-slate-400">45 min • 6 sources</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-20 text-sm text-slate-400">6:00 AM</div>
+                            <div class="flex-1 h-px bg-emerald-500"></div>
+                            <div class="flex-1 p-3 bg-emerald-500/10 border border-emerald-500/30 rounded-lg">
+                                <p class="font-medium text-emerald-400">⬆️ UPLOAD BATCH 1</p>
+                                <p class="text-xs text-slate-400">30 min • 40 properties</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <div class="w-20 text-sm text-slate-400">6:30 AM</div>
+                            <div class="flex-1 h-px bg-slate-700"></div>
+                            <div class="flex-1 p-3 bg-slate-900/50 rounded-lg">
+                                <p class="font-medium text-slate-500">😴 DEEP SLEEP</p>
+                                <p class="text-xs text-slate-400">Till 2:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI STUDIO PAGE -->
+            <div id="page-ai-studio" class="page hide p-6">
+                <h3 class="font-semibold text-lg mb-4">AI Tools</h3>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+                    <button class="card p-6 card-hover text-center">
+                        <i class="fas fa-palette text-3xl text-indigo-400 mb-3"></i>
+                        <p class="font-semibold">Thumbnail Maker</p>
+                        <p class="text-xs text-slate-400 mt-1">3 AI variants</p>
+                    </button>
+                    <button class="card p-6 card-hover text-center">
+                        <i class="fas fa-heading text-3xl text-emerald-400 mb-3"></i>
+                        <p class="font-semibold">Title Optimizer</p>
+                        <p class="text-xs text-slate-400 mt-1">CTR prediction</p>
+                    </button>
+                    <button class="card p-6 card-hover text-center">
+                        <i class="fas fa-music text-3xl text-amber-400 mb-3"></i>
+                        <p class="font-semibold">Music Generator</p>
+                        <p class="text-xs text-slate-400 mt-1">Royalty-free</p>
+                    </button>
+                    <button class="card p-6 card-hover text-center">
+                        <i class="fas fa-microphone text-3xl text-pink-400 mb-3"></i>
+                        <p class="font-semibold">Voice Clone</p>
+                        <p class="text-xs text-slate-400 mt-1">50 voices</p>
+                    </button>
+                </div>
+                
+                <div class="card p-6">
+                    <h3 class="font-semibold text-lg mb-4">Viral Predictor</h3>
+                    <div class="flex gap-4 mb-4">
+                        <input type="text" placeholder="Enter topic..." class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-4 py-3">
+                        <button class="px-6 py-3 bg-indigo-600 rounded-lg font-semibold">Predict</button>
+                    </div>
+                    <div class="p-4 bg-slate-900/50 rounded-lg">
+                        <div class="flex items-center justify-between mb-3">
+                            <p class="font-semibold">"AI in 2024"</p>
+                            <span class="text-2xl font-bold text-amber-400">87%</span>
+                        </div>
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div>
+                                <p class="text-slate-400">Best Format</p>
+                                <p>Shorts (9:16)</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-400">Optimal Time</p>
+                                <p>6:00 PM IST</p>
+                            </div>
+                            <div>
+                                <p class="text-slate-400">Est. Views</p>
+                                <p>50K-200K</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BRAND DEALS PAGE -->
+            <div id="page-brands" class="page hide p-6">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-semibold text-lg">Brand Deals Pipeline</h3>
+                    <button class="px-4 py-2 bg-indigo-600 rounded-lg">+ New Lead</button>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+                    <div class="card p-4 text-center">
+                        <p class="text-3xl font-bold text-slate-400">23</p>
+                        <p class="text-sm text-slate-500">Leads</p>
+                    </div>
+                    <div class="card p-4 text-center">
+                        <p class="text-3xl font-bold text-amber-400">12</p>
+                        <p class="text-sm text-slate-500">Pitched</p>
+                    </div>
+                    <div class="card p-4 text-center">
+                        <p class="text-3xl font-bold text-emerald-400">5</p>
+                        <p class="text-sm text-slate-500">Closed</p>
+                    </div>
+                </div>
+                
+                <div class="card p-6">
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-slate-900/30 rounded-lg">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center text-blue-400">
+                                    <i class="fas fa-building"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">TechCorp</p>
+                                    <p class="text-sm text-slate-400">Pitch Sent • 2 days ago</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold">₹15,000</p>
+                                <p class="text-sm text-amber-400">70% probability</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-4 bg-slate-900/30 rounded-lg">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">GameStudio</p>
+                                    <p class="text-sm text-slate-400">Negotiating • 5 days ago</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="font-semibold">₹8,000</p>
+                                <p class="text-sm text-emerald-400">85% probability</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TELEGRAM SETUP PAGE -->
+            <div id="page-telegram" class="page hide p-6">
+                <div class="card p-6">
+                    <div class="flex items-center gap-4 mb-6">
+                        <i class="fab fa-telegram text-4xl text-blue-400"></i>
+                        <div>
+                            <h3 class="font-semibold text-lg">Telegram Integration</h3>
+                            <p class="text-sm text-slate-400">Optional backup control</p>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-slate-900/50 rounded-lg mb-6">
+                        <p class="text-sm text-slate-400 mb-2">Status</p>
+                        <p class="text-lg font-semibold text-slate-500">○ Not Connected</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="p-4 border border-slate-700 rounded-lg">
+                            <p class="font-medium mb-2">1. Message @BotFather</p>
+                            <p class="text-sm text-slate-400">Create new bot with /newbot</p>
+                        </div>
+                        <div class="p-4 border border-slate-700 rounded-lg">
+                            <p class="font-medium mb-2">2. Copy API Token</p>
+                            <input type="text" placeholder="123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11" class="w-full mt-2 bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-sm">
+                        </div>
+                        <div class="p-4 border border-slate-700 rounded-lg">
+                            <p class="font-medium mb-2">3. Get Chat ID</p>
+                            <p class="text-sm text-slate-400 mb-2">Message @userinfobot</p>
+                            <input type="text" placeholder="1234567890" class="w-full mt-2 bg-slate-900 border border-slate-700 rounded-lg px-4 py-3 text-sm">
+                        </div>
+                    </div>
+                    
+                    <div class="flex gap-4 mt-6">
+                        <button class="flex-1 py-3 bg-indigo-600 rounded-lg font-semibold">Verify & Connect</button>
+                        <button class="flex-1 py-3 bg-slate-800 border border-slate-700 rounded-lg">Skip for Now</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SETTINGS PAGE -->
+            <div id="page-settings" class="page hide p-6">
+                <div class="card p-6 mb-6">
+                    <h3 class="font-semibold text-lg mb-4">General</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm text-slate-400 mb-2">System Name</label>
+                            <input type="text" value="Infinity System" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm text-slate-400 mb-2">Timezone</label>
+                                <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3">
+                                    <option>Asia/Kolkata (IST)</option>
+                                    <option>America/New_York</option>
+                                    <option>Europe/London</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm text-slate-400 mb-2">Currency</label>
+                                <select class="w-full bg-slate-900 border border-slate-700 rounded-lg px-4 py-3">
+                                    <option>INR ₹</option>
+                                    <option>USD $</option>
+                                    <option>EUR €</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card p-6 mb-6">
+                    <h3 class="font-semibold text-lg mb-4">Automation Level</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg cursor-pointer">
+                            <input type="radio" name="auto" class="w-4 h-4 text-indigo-500">
+                            <div>
+                                <p class="font-medium">Semi-Auto (Recommended)</p>
+                                <p class="text-sm text-slate-400">AI suggests, you approve</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg cursor-pointer">
+                            <input type="radio" name="auto" class="w-4 h-4 text-indigo-500">
+                            <div>
+                                <p class="font-medium">Full Auto</p>
+                                <p class="text-sm text-slate-400">Zero touch, trust AI</p>
+                            </div>
+                        </label>
+                        <label class="flex items-center gap-3 p-3 bg-slate-900/50 rounded-lg cursor-pointer">
+                            <input type="radio" name="auto" class="w-4 h-4 text-indigo-500">
+                            <div>
+                                <p class="font-medium">God Mode</p>
+                                <p class="text-sm text-slate-400">AI decides everything</p>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="card p-6 border-red-500/30">
+                    <h3 class="font-semibold text-lg mb-4 text-red-400">Danger Zone</h3>
+                    <div class="space-y-3">
+                        <button class="w-full p-3 bg-red-500/20 text-red-400 rounded-lg hover:bg-red-500/30 transition">
+                            <i class="fas fa-pause mr-2"></i>Pause All Properties
+                        </button>
+                        <button class="w-full p-3 bg-slate-800 rounded-lg hover:bg-slate-700 transition">
+                            <i class="fas fa-download mr-2"></i>Export All Data
+                        </button>
+                        <button class="w-full p-3 bg-slate-800 rounded-lg hover:bg-red-500/20 hover:text-red-400 transition">
+                            <i class="fas fa-trash mr-2"></i>Factory Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Page Navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hide'));
+            document.getElementById('app-layout').classList.add('hide');
+            
+            // Show requested page
+            if (pageName === 'login') {
+                document.getElementById('page-login').classList.remove('hide');
+            } else {
+                document.getElementById('app-layout').classList.remove('hide');
+                document.getElementById('page-' + pageName).classList.remove('hide');
+                
+                // Update page title
+                const titles = {
+                    'dashboard': 'Dashboard',
+                    'content': 'Content Studio',
+                    'money': 'Revenue Center',
+                    'analytics': 'Analytics Hub',
+                    'properties': 'Properties',
+                    'scheduler': 'Smart Scheduler',
+                    'ai-studio': 'AI Studio',
+                    'brands': 'Brand Deals',
+                    'telegram': 'Telegram Setup',
+                    'settings': 'Settings'
+                };
+                document.getElementById('page-title').textContent = titles[pageName] || 'Dashboard';
+                
+                // Update sidebar active state
+                document.querySelectorAll('.sidebar-link').forEach(link => link.classList.remove('active'));
+                event.target.closest('a')?.classList.add('active');
+            }
+        }
+        
+        // Initialize
+        showPage('login');
+    </script>
+</body>
+</html>
