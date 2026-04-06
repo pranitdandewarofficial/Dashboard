@@ -3,37 +3,1879 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Infinity System - Content Empire</title>
+    <title>Infinity System v3.0 - God Mode</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * { font-family: 'Inter', sans-serif; }
-        body { background-color: #0F172A; color: #F8FAFC; }
-        .card { background-color: #1E293B; border: 1px solid #334155; border-radius: 12px; }
-        .card-hover:hover { 
-            box-shadow: 0 10px 40px -10px rgba(99, 102, 241, 0.3);
-            transform: translateY(-2px);
-            transition: all 0.3s ease;
-        }
-        .gradient-text { 
-            background: linear-gradient(135deg, #6366F1, #10B981);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-        .progress-bar { background: linear-gradient(90deg, #6366F1, #10B981); }
+        body { background-color: #0B0F19; color: #F8FAFC; }
+        .glass { background: rgba(30, 41, 59, 0.6); backdrop-filter: blur(12px); border: 1px solid rgba(99, 102, 241, 0.1); }
+        .card { background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.9)); border: 1px solid rgba(99, 102, 241, 0.2); border-radius: 16px; }
+        .card-hover:hover { box-shadow: 0 20px 60px -20px rgba(99, 102, 241, 0.4); transform: translateY(-4px); transition: all 0.3s ease; border-color: rgba(99, 102, 241, 0.4); }
+        .gradient-text { background: linear-gradient(135deg, #6366F1, #10B981, #F59E0B); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-glow { box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+        .pipeline-active { animation: pulse-border 2s infinite; }
+        @keyframes pulse-border { 0%, 100% { border-color: rgba(16, 185, 129, 0.5); } 50% { border-color: rgba(16, 185, 129, 1); } }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem; }
+        .status-running { background: linear-gradient(90deg, #10B981, #059669); }
+        .status-idle { background: linear-gradient(90deg, #64748B, #475569); }
+        .status-paused { background: linear-gradient(90deg, #F59E0B, #D97706); }
         .hide { display: none !important; }
-        .page { animation: fadeIn 0.3s ease-in; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .status-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
-        .status-green { background-color: #10B981; box-shadow: 0 0 8px #10B981; }
-        .status-yellow { background-color: #F59E0B; box-shadow: 0 0 8px #F59E0B; }
-        .status-red { background-color: #EF4444; box-shadow: 0 0 8px #EF4444; }
-        .sidebar-link { transition: all 0.2s; }
-        .sidebar-link:hover, .sidebar-link.active { 
-            background-color: rgba(99, 102, 241, 0.1); 
-            border-left: 3px solid #6366F1;
+        .page { animation: fadeIn 0.4s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .scroll-hide::-webkit-scrollbar { display: none; }
+        .feature-card { background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(99, 102, 241, 0.15); border-radius: 12px; padding: 1rem; transition: all 0.3s; }
+        .feature-card:hover { border-color: rgba(99, 102, 241, 0.4); background: rgba(30, 41, 59, 0.8); }
+        .pipeline-btn { background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(99, 102, 241, 0.05)); border: 1px solid rgba(99, 102, 241, 0.3); }
+        .pipeline-btn:hover { background: linear-gradient(135deg, rgba(99, 102, 241, 0.3), rgba(99, 102, 241, 0.1)); box-shadow: 0 0 20px rgba(99, 102, 241, 0.3); }
+        .running-animation { animation: running-pulse 1.5s infinite; }
+        @keyframes running-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+    </style>
+</head>
+<body class="min-h-screen overflow-x-hidden">
+
+    <!-- LOGIN PAGE -->
+    <div id="page-login" class="page min-h-screen flex items-center justify-center p-4 bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%236366F1%22%20fill-opacity%3D%220.05%22%3E%3Cpath%20d%3D%22M36%2034v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6%2034v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6%204V0H4v4H0v2h4v4h2V6h4V4H6z%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-10">
+                <div class="text-7xl mb-4 animate-bounce">🤖</div>
+                <h1 class="text-4xl font-bold gradient-text mb-2">Infinity System</h1>
+                <p class="text-slate-400 text-lg">v3.0 God Mode Activated</p>
+                <div class="flex justify-center gap-2 mt-4">
+                    <span class="px-3 py-1 bg-indigo-500/20 text-indigo-400 rounded-full text-xs">60 Features</span>
+                    <span class="px-3 py-1 bg-emerald-500/20 text-emerald-400 rounded-full text-xs">12 Pipelines</span>
+                    <span class="px-3 py-1 bg-amber-500/20 text-amber-400 rounded-full text-xs">Auto-Pilot</span>
+                </div>
+            </div>
+            
+            <div class="card p-8 shadow-2xl">
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Email</label>
+                    <input type="email" placeholder="you@email.com" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition">
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-slate-400 mb-2">Password</label>
+                    <input type="password" placeholder="••••••••" class="w-full bg-slate-900/50 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 transition">
+                </div>
+                
+                <div class="flex items-center justify-between mb-6">
+                    <label class="flex items-center gap-2 cursor-pointer">
+                        <input type="checkbox" class="w-4 h-4 rounded border-slate-700 bg-slate-900 text-indigo-500 focus:ring-indigo-500/20">
+                        <span class="text-sm text-slate-400">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm text-indigo-400 hover:text-indigo-300">Forgot?</a>
+                </div>
+                
+                <button onclick="showPage('dashboard')" class="w-full py-4 bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 rounded-xl font-bold text-lg shadow-lg shadow-indigo-500/30 hover:shadow-indigo-500/50 transition-all transform hover:scale-[1.02]">
+                    <i class="fas fa-rocket mr-2"></i>Launch System
+                </button>
+                
+                <div class="relative my-8">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-slate-700"></div>
+                    </div>
+                    <div class="relative flex justify-center text-sm">
+                        <span class="px-4 bg-slate-800 text-slate-500 rounded-lg">OR</span>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <button class="py-3 bg-slate-800 border border-slate-700 rounded-xl hover:bg-slate-700 transition flex items-center justify-center gap-2">
+                        <i class="fab fa-google text-red-400"></i> Google
+                    </button>
+                    <button class="py-3 bg-slate-800 border border-slate-700 rounded-xl hover:bg-slate-700 transition flex items-center justify-center gap-2">
+                        <i class="fab fa-github"></i> GitHub
+                    </button>
+                </div>
+            </div>
+            
+            <p class="text-center mt-8 text-slate-600 text-sm">
+                New empire? <a href="#" class="text-indigo-400 hover:text-indigo-300 font-medium">Create account</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- MAIN APP -->
+    <div id="app-layout" class="hide flex h-screen overflow-hidden">
+        
+        <!-- SIDEBAR -->
+        <aside class="w-72 bg-slate-900/80 border-r border-slate-800/50 flex flex-col backdrop-blur-xl">
+            <div class="p-6 border-b border-slate-800/50">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-gradient-to-br from-indigo-500 to-emerald-500 rounded-xl flex items-center justify-center text-xl shadow-lg shadow-indigo-500/30">🤖</div>
+                    <div>
+                        <h1 class="font-bold text-lg tracking-tight">Infinity</h1>
+                        <p class="text-xs text-slate-500 font-medium">v3.0 GOD MODE</p>
+                    </div>
+                </div>
+            </div>
+            
+            <nav class="flex-1 overflow-y-auto py-4 scroll-hide">
+                <div class="px-4 mb-2 text-xs font-semibold text-slate-600 uppercase tracking-wider">Main</div>
+                <a href="#" onclick="showPage('dashboard')" class="sidebar-link active flex items-center gap-3 px-6 py-3 text-slate-300 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-indigo-500">
+                    <i class="fas fa-chart-line w-5 text-indigo-400"></i>Dashboard
+                </a>
+                <a href="#" onclick="showPage('pipelines')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-network-wired w-5 text-emerald-400"></i>All Pipelines
+                </a>
+                <a href="#" onclick="showPage('content')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-video w-5 text-amber-400"></i>Content Studio
+                </a>
+                <a href="#" onclick="showPage('money')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-rupee-sign w-5 text-emerald-400"></i>Revenue Center
+                </a>
+                
+                <div class="px-4 mt-6 mb-2 text-xs font-semibold text-slate-600 uppercase tracking-wider">Intelligence</div>
+                <a href="#" onclick="showPage('analytics')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-brain w-5 text-purple-400"></i>Analytics Hub
+                </a>
+                <a href="#" onclick="showPage('ai-studio')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-robot w-5 text-pink-400"></i>AI Studio
+                </a>
+                <a href="#" onclick="showPage('properties')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-globe w-5 text-blue-400"></i>Properties
+                </a>
+                
+                <div class="px-4 mt-6 mb-2 text-xs font-semibold text-slate-600 uppercase tracking-wider">Automation</div>
+                <a href="#" onclick="showPage('scheduler')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-clock w-5 text-cyan-400"></i>Scheduler
+                </a>
+                <a href="#" onclick="showPage('features')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-list-check w-5 text-orange-400"></i>All 60 Features
+                </a>
+                <a href="#" onclick="showPage('brands')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fas fa-handshake w-5 text-rose-400"></i>Brand Deals
+                </a>
+                
+                <div class="px-4 mt-6 mb-2 text-xs font-semibold text-slate-600 uppercase tracking-wider">Optional</div>
+                <a href="#" onclick="showPage('telegram')" class="sidebar-link flex items-center gap-3 px-6 py-3 text-slate-400 hover:text-white hover:bg-slate-800/50 transition border-l-4 border-transparent">
+                    <i class="fab fa-telegram w-5 text-blue-400"></i>Telegram Bot
+                    <span class="ml-auto text-xs bg-slate-800 px-2 py-0.5 rounded text-slate-500">OFF</span>
+                </a>
+            </nav>
+            
+            <div class="p-4 border-t border-slate-800/50">
+                <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-800/50 border border-slate-700/50">
+                    <img src="https://ui-avatars.com/api/?name=You&background=6366F1&color=fff&rounded=true" class="w-10 h-10 rounded-full">
+                    <div class="flex-1 min-w-0">
+                        <p class="text-sm font-medium truncate">You</p>
+                        <p class="text-xs text-emerald-400 flex items-center gap-1">
+                            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                            Pro Plan
+                        </p>
+                    </div>
+                    <button onclick="showPage('settings')" class="p-2 text-slate-400 hover:text-white transition">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="flex-1 overflow-y-auto bg-[#0B0F19] scroll-hide">
+            
+            <!-- TOP BAR -->
+            <header class="glass sticky top-0 z-50 px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <h2 id="page-title" class="text-2xl font-bold bg-gradient-to-r from-white to-slate-400 bg-clip-text text-transparent">Dashboard</h2>
+                    <span class="px-3 py-1 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 rounded-full text-xs font-medium">
+                        <i class="fas fa-circle text-[8px] mr-1 animate-pulse"></i>
+                        ₹67,340 this month
+                    </span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <button class="relative p-3 text-slate-400 hover:text-white transition rounded-xl hover:bg-slate-800/50">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full animate-ping"></span>
+                        <span class="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full"></span>
+                    </button>
+                    <button onclick="showPage('settings')" class="p-3 text-slate-400 hover:text-white transition rounded-xl hover:bg-slate-800/50">
+                        <i class="fas fa-sliders-h text-lg"></i>
+                    </button>
+                    <button onclick="showPage('login')" class="p-3 text-slate-400 hover:text-red-400 transition rounded-xl hover:bg-red-500/10">
+                        <i class="fas fa-power-off text-lg"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- DASHBOARD PAGE -->
+            <div id="page-dashboard" class="page p-6 space-y-6">
+                
+                <!-- Empire Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card p-6 card-hover relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-indigo-500/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                        <div class="flex items-center justify-between mb-4 relative">
+                            <span class="text-slate-400 text-sm font-medium">Active Properties</span>
+                            <span class="status-dot status-green animate-pulse"></span>
+                        </div>
+                        <p class="text-4xl font-bold text-white">80</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-emerald-400 text-sm font-medium"><i class="fas fa-arrow-up mr-1"></i>12</span>
+                            <span class="text-slate-500 text-sm">this week</span>
+                        </div>
+                        <div class="mt-4 flex gap-2">
+                            <span class="px-2 py-1 bg-emerald-500/10 text-emerald-400 rounded text-xs">YT: 15</span>
+                            <span class="px-2 py-1 bg-pink-500/10 text-pink-400 rounded text-xs">IG: 28</span>
+                            <span class="px-2 py-1 bg-amber-500/10 text-amber-400 rounded text-xs">TT: 12</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6 card-hover relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-emerald-500/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-slate-400 text-sm font-medium">Monthly Earnings</span>
+                            <i class="fas fa-rupee-sign text-emerald-400 text-xl"></i>
+                        </div>
+                        <p class="text-4xl font-bold gradient-text">₹67.3K</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-emerald-400 text-sm font-medium"><i class="fas fa-arrow-up mr-1"></i>+23%</span>
+                            <span class="text-slate-500 text-sm">vs last month</span>
+                        </div>
+                        <div class="mt-4 h-2 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="h-full w-[134%] bg-gradient-to-r from-indigo-500 to-emerald-500 rounded-full"></div>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-2">134% of ₹50K target 🎯</p>
+                    </div>
+                    
+                    <div class="card p-6 card-hover relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-blue-500/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-slate-400 text-sm font-medium">Today's Views</span>
+                            <i class="fas fa-eye text-blue-400 text-xl"></i>
+                        </div>
+                        <p class="text-4xl font-bold text-white">145K</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-emerald-400 text-sm font-medium"><i class="fas fa-arrow-up mr-1"></i>+18%</span>
+                            <span class="text-slate-500 text-sm">vs yesterday</span>
+                        </div>
+                        <div class="mt-4 flex items-center gap-2 text-xs text-slate-500">
+                            <span>Peak: 6:00 PM</span>
+                            <span>•</span>
+                            <span>Active now: 12K</span>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6 card-hover relative overflow-hidden">
+                        <div class="absolute top-0 right-0 w-32 h-32 bg-amber-500/10 rounded-full -mr-16 -mt-16 blur-2xl"></div>
+                        <div class="flex items-center justify-between mb-4">
+                            <span class="text-slate-400 text-sm font-medium">Pipelines Active</span>
+                            <i class="fas fa-network-wired text-amber-400 text-xl"></i>
+                        </div>
+                        <p class="text-4xl font-bold text-white">8<span class="text-2xl text-slate-500">/12</span></p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <span class="text-amber-400 text-sm font-medium">4 idle</span>
+                            <span class="text-slate-500 text-sm">scheduled rest</span>
+                        </div>
+                        <div class="mt-4 flex gap-2">
+                            <button onclick="showPage('pipelines')" class="flex-1 py-2 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-xs font-medium transition">Manage</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Control & Quick Pipeline Launch -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <div class="card p-6 lg:col-span-2">
+                        <div class="flex items-center justify-between mb-6">
+                            <div>
+                                <h3 class="font-bold text-xl">System Status</h3>
+                                <p class="text-slate-400 text-sm">Current Mode: <span class="text-indigo-400 font-medium">Smart Sleep 😴</span></p>
+                            </div>
+                            <div class="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 border border-emerald-500/30 rounded-full">
+                                <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                                <span class="text-emerald-400 text-sm font-medium">Operational</span>
+                            </div>
+                        </div>
+                        
+                        <!-- Pipeline Quick Launch Grid -->
+                        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
+                            <button onclick="togglePipeline('trend')" id="btn-trend" class="pipeline-btn p-4 rounded-xl text-center group relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-r from-indigo-600/0 to-indigo-600/0 group-hover:from-indigo-600/10 group-hover:to-indigo-600/5 transition-all"></div>
+                                <i class="fas fa-search text-2xl text-indigo-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                                <p class="font-medium text-sm">Trend Hunt</p>
+                                <p class="text-xs text-slate-500 mt-1">Pipeline #1</p>
+                                <span class="mt-2 inline-flex items-center gap-1 text-xs px-2 py-1 bg-slate-800 rounded-full">
+                                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                                    Running
+                                </span>
+                            </button>
+                            
+                            <button onclick="togglePipeline('content')" id="btn-content" class="pipeline-btn p-4 rounded-xl text-center group relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-r from-amber-600/0 to-amber-600/0 group-hover:from-amber-600/10 group-hover:to-amber-600/5 transition-all"></div>
+                                <i class="fas fa-film text-2xl text-amber-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                                <p class="font-medium text-sm">Content Factory</p>
+                                <p class="text-xs text-slate-500 mt-1">Pipeline #2</p>
+                                <span class="mt-2 inline-flex items-center gap-1 text-xs px-2 py-1 bg-slate-800 rounded-full">
+                                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                    Active
+                                </span>
+                            </button>
+                            
+                            <button onclick="togglePipeline('upload')" id="btn-upload" class="pipeline-btn p-4 rounded-xl text-center group relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-r from-emerald-600/0 to-emerald-600/0 group-hover:from-emerald-600/10 group-hover:to-emerald-600/5 transition-all"></div>
+                                <i class="fas fa-cloud-upload-alt text-2xl text-emerald-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                                <p class="font-medium text-sm">Upload Queue</p>
+                                <p class="text-xs text-slate-500 mt-1">Pipeline #3</p>
+                                <span class="mt-2 inline-flex items-center gap-1 text-xs px-2 py-1 bg-amber-500/20 text-amber-400 rounded-full">
+                                    <span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>
+                                    Paused
+                                </span>
+                            </button>
+                            
+                            <button onclick="togglePipeline('money')" id="btn-money" class="pipeline-btn p-4 rounded-xl text-center group relative overflow-hidden">
+                                <div class="absolute inset-0 bg-gradient-to-r from-rose-600/0 to-rose-600/0 group-hover:from-rose-600/10 group-hover:to-rose-600/5 transition-all"></div>
+                                <i class="fas fa-coins text-2xl text-rose-400 mb-2 group-hover:scale-110 transition-transform"></i>
+                                <p class="font-medium text-sm">Money Matrix</p>
+                                <p class="text-xs text-slate-500 mt-1">Pipeline #4</p>
+                                <span class="mt-2 inline-flex items-center gap-1 text-xs px-2 py-1 bg-slate-800 rounded-full">
+                                    <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full"></span>
+                                    Auto
+                                </span>
+                            </button>
+                        </div>
+                        
+                        <div class="flex gap-3 mb-6">
+                            <button class="flex-1 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold transition flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20">
+                                <i class="fas fa-bolt"></i> Force Wake All
+                            </button>
+                            <button class="flex-1 py-3 bg-slate-800 border border-slate-700 hover:bg-slate-700 rounded-xl font-semibold transition flex items-center justify-center gap-2">
+                                <i class="fas fa-fire"></i> Beast Mode
+                            </button>
+                            <button class="flex-1 py-3 bg-slate-800 border border-slate-700 hover:bg-slate-700 rounded-xl font-semibold transition flex items-center justify-center gap-2">
+                                <i class="fas fa-moon"></i> Deep Sleep
+                            </button>
+                            <button class="flex-1 py-3 bg-slate-800 border border-slate-700 hover:bg-slate-700 rounded-xl font-semibold transition flex items-center justify-center gap-2">
+                                <i class="fas fa-graduation-cap"></i> College
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-3 gap-4 text-sm">
+                            <div class="p-3 bg-slate-900/50 rounded-lg">
+                                <p class="text-slate-500 mb-1">AI Brain</p>
+                                <p class="text-emerald-400 font-medium">🧠 847 patterns today</p>
+                            </div>
+                            <div class="p-3 bg-slate-900/50 rounded-lg">
+                                <p class="text-slate-500 mb-1">Trend Hunter</p>
+                                <p class="font-medium">6 sources monitoring</p>
+                            </div>
+                            <div class="p-3 bg-slate-900/50 rounded-lg">
+                                <p class="text-slate-500 mb-1">Content Buffer</p>
+                                <p class="text-emerald-400 font-medium">34 days ready 🟢</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6">
+                        <h3 class="font-bold text-lg mb-4">Quick Actions</h3>
+                        <div class="space-y-3">
+                            <button onclick="showPage('content')" class="w-full p-4 bg-indigo-600 hover:bg-indigo-500 rounded-xl text-left transition flex items-center gap-3 group">
+                                <div class="w-10 h-10 bg-indigo-500/30 rounded-lg flex items-center justify-center group-hover:scale-110 transition">
+                                    <i class="fas fa-plus text-indigo-300"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Create Content</p>
+                                    <p class="text-xs text-indigo-200">Instant viral video</p>
+                                </div>
+                                <i class="fas fa-arrow-right ml-auto text-indigo-300"></i>
+                            </button>
+                            
+                            <button onclick="showPage('money')" class="w-full p-4 bg-slate-800 border border-slate-700 hover:bg-slate-700 rounded-xl text-left transition flex items-center gap-3 group">
+                                <div class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition">
+                                    <i class="fas fa-rupee-sign text-emerald-400"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Withdraw Money</p>
+                                    <p class="text-xs text-slate-400">₹67,340 available</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="showPage('features')" class="w-full p-4 bg-slate-800 border border-slate-700 hover:bg-slate-700 rounded-xl text-left transition flex items-center gap-3 group">
+                                <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition">
+                                    <i class="fas fa-rocket text-amber-400"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">All 60 Features</p>
+                                    <p class="text-xs text-slate-400">God mode controls</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="showPage('pipelines')" class="w-full p-4 bg-slate-800 border border-slate-700 hover:bg-slate-700 rounded-xl text-left transition flex items-center gap-3 group">
+                                <div class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition">
+                                    <i class="fas fa-network-wired text-cyan-400"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Manage Pipelines</p>
+                                    <p class="text-xs text-slate-400">8/12 running</p>
+                                </div>
+                            </button>
+                            
+                            <button class="w-full p-4 bg-red-500/10 border border-red-500/30 hover:bg-red-500/20 rounded-xl text-left transition flex items-center gap-3 text-red-400 group">
+                                <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center group-hover:scale-110 transition">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div>
+                                    <p class="font-semibold">Emergency Stop</p>
+                                    <p class="text-xs text-red-300">Pause everything</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Active Queue -->
+                <div class="card p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 class="font-bold text-xl">Active Queue</h3>
+                            <p class="text-slate-400 text-sm">Real-time processing status</p>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-filter mr-2"></i>Filter
+                            </button>
+                            <button class="px-4 py-2 bg-indigo-600 rounded-lg text-sm hover:bg-indigo-500 transition">
+                                View All →
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <!-- Rendering Item -->
+                        <div class="flex items-center gap-4 p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                            <div class="w-14 h-14 rounded-xl bg-emerald-500/20 flex items-center justify-center text-emerald-400 relative">
+                                <i class="fas fa-cog fa-spin text-2xl"></i>
+                                <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full flex items-center justify-center text-[10px] text-white font-bold">3</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <p class="font-semibold truncate">"Elon Interview Clip" - AI Analysis</p>
+                                    <span class="px-2 py-0.5 bg-emerald-500/20 text-emerald-400 rounded text-xs">Rendering</span>
+                                </div>
+                                <p class="text-sm text-slate-400 mb-2">15 YT + 20 IG • Viral Score: 94/100 🔥</p>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full w-3/5 bg-gradient-to-r from-emerald-500 to-emerald-400 rounded-full"></div>
+                                    </div>
+                                    <span class="text-xs text-slate-500 w-16">ETA: 12m</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg transition"><i class="fas fa-play"></i></button>
+                                <button class="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg transition"><i class="fas fa-pause"></i></button>
+                                <button class="p-2 text-slate-400 hover:text-red-400 bg-slate-800 rounded-lg transition"><i class="fas fa-times"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Uploading Item -->
+                        <div class="flex items-center gap-4 p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                            <div class="w-14 h-14 rounded-xl bg-amber-500/20 flex items-center justify-center text-amber-400 relative">
+                                <i class="fas fa-cloud-upload-alt text-2xl"></i>
+                                <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-amber-500 rounded-full flex items-center justify-center text-[10px] text-white font-bold">↑</span>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <p class="font-semibold truncate">"Tech News Roundup" - Uploading</p>
+                                    <span class="px-2 py-0.5 bg-amber-500/20 text-amber-400 rounded text-xs">Uploading</span>
+                                </div>
+                                <p class="text-sm text-slate-400 mb-2">Batch 3/35 • 12 remaining • 28 properties</p>
+                                <div class="flex items-center gap-2">
+                                    <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden">
+                                        <div class="h-full w-1/12 bg-gradient-to-r from-amber-500 to-amber-400 rounded-full"></div>
+                                    </div>
+                                    <span class="text-xs text-slate-500 w-16">3/35</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg transition"><i class="fas fa-chart-line"></i></button>
+                                <button class="p-2 text-slate-400 hover:text-white bg-slate-800 rounded-lg transition"><i class="fas fa-pause"></i></button>
+                            </div>
+                        </div>
+                        
+                        <!-- Scheduled Item -->
+                        <div class="flex items-center gap-4 p-4 bg-slate-900/50 rounded-xl border border-slate-800">
+                            <div class="w-14 h-14 rounded-xl bg-blue-500/20 flex items-center justify-center text-blue-400">
+                                <i class="fas fa-clock text-2xl"></i>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <p class="font-semibold">42 Items Scheduled</p>
+                                    <span class="px-2 py-0.5 bg-blue-500/20 text-blue-400 rounded text-xs">Queued</span>
+                                </div>
+                                <p class="text-sm text-slate-400">Next upload: 6:00 PM IST • Buffer: 34 days</p>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="px-4 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">Edit</button>
+                                <button class="px-4 py-2 bg-indigo-600 rounded-lg text-sm hover:bg-indigo-500 transition">Run Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Section -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="card p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-lg">Recent Activity</h3>
+                            <button class="text-sm text-slate-400 hover:text-white">View All 247</button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-start gap-3 p-3 bg-slate-900/30 rounded-lg">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-500/20 flex items-center justify-center text-emerald-400 mt-0.5">
+                                    <i class="fas fa-arrow-up text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm">Uploaded "Tech News #45" to 12 properties</p>
+                                    <p class="text-xs text-slate-500 mt-1">6:30 PM • Pipeline #3</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-slate-900/30 rounded-lg">
+                                <div class="w-8 h-8 rounded-lg bg-indigo-500/20 flex items-center justify-center text-indigo-400 mt-0.5">
+                                    <i class="fas fa-palette text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm">AI generated thumbnail (Score: 94%)</p>
+                                    <p class="text-xs text-slate-500 mt-1">6:15 PM • Feature #8</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-3 bg-slate-900/30 rounded-lg border border-amber-500/20">
+                                <div class="w-8 h-8 rounded-lg bg-amber-500/20 flex items-center justify-center text-amber-400 mt-0.5">
+                                    <i class="fas fa-fire text-sm"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-amber-400">Trend alert: "AI Breakthrough" (96/100)</p>
+                                    <p class="text-xs text-slate-500 mt-1">5:45 PM • Auto-wake triggered</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-lg">Top Properties</h3>
+                            <button class="text-sm text-slate-400 hover:text-white">View All 80</button>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center text-red-500">
+                                        <i class="fab fa-youtube"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">TechHindi</p>
+                                        <p class="text-xs text-emerald-400">↑ 15% this week</p>
+                                    </div>
+                                </div>
+                                <span class="font-bold text-emerald-400">₹8.2K</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-pink-500/20 rounded-lg flex items-center justify-center text-pink-500">
+                                        <i class="fab fa-instagram"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">GadgetGuru</p>
+                                        <p class="text-xs text-emerald-400">↑ 8% this week</p>
+                                    </div>
+                                </div>
+                                <span class="font-bold text-emerald-400">₹4.5K</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-slate-900/30 rounded-lg border border-amber-500/20">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-red-500/20 rounded-lg flex items-center justify-center text-red-500">
+                                        <i class="fab fa-youtube"></i>
+                                    </div>
+                                    <div>
+                                        <p class="font-medium">FinanceWiz</p>
+                                        <p class="text-xs text-amber-400">↓ 3% needs attention</p>
+                                    </div>
+                                </div>
+                                <span class="font-bold text-amber-400">₹3.8K</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ALL PIPELINES PAGE -->
+            <div id="page-pipelines" class="page hide p-6 space-y-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold gradient-text">All Pipelines</h2>
+                        <p class="text-slate-400">12 autonomous systems • 8 running</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition">
+                            <i class="fas fa-play mr-2 text-emerald-400"></i>Start All
+                        </button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition">
+                            <i class="fas fa-pause mr-2 text-amber-400"></i>Pause All
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pipeline Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Pipeline 1: Trend Hunt -->
+                    <div class="card p-5 border-emerald-500/30 pipeline-active" id="pipeline-trend">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400">
+                                    <i class="fas fa-search text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">#1 Trend Hunt</p>
+                                    <p class="text-xs text-slate-400">6 sources monitored</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium">Running</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Last scan</span>
+                                <span>2 min ago</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Triggers today</span>
+                                <span class="text-emerald-400">12 found</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Next scan</span>
+                                <span>in 13 min</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="togglePipeline('trend')" class="flex-1 py-2 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-medium hover:bg-amber-500/30 transition">
+                                <i class="fas fa-pause mr-1"></i>Pause
+                            </button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-cog mr-1"></i>Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline 2: Content Factory -->
+                    <div class="card p-5 border-emerald-500/30 pipeline-active" id="pipeline-content">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-amber-500/20 rounded-xl flex items-center justify-center text-amber-400">
+                                    <i class="fas fa-film text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">#2 Content Factory</p>
+                                    <p class="text-xs text-slate-400">AI creation engine</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium animate-pulse">Active</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Rendering</span>
+                                <span class="text-amber-400">3 videos</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Queue</span>
+                                <span>12 pending</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Completed today</span>
+                                <span class="text-emerald-400">8 videos</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="togglePipeline('content')" class="flex-1 py-2 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-medium hover:bg-amber-500/30 transition">
+                                <i class="fas fa-pause mr-1"></i>Pause
+                            </button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-cog mr-1"></i>Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline 3: Upload Queue -->
+                    <div class="card p-5 border-amber-500/30" id="pipeline-upload">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400">
+                                    <i class="fas fa-cloud-upload-alt text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">#3 Upload Queue</p>
+                                    <p class="text-xs text-slate-400">Multi-platform publish</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-amber-500/20 text-amber-400 rounded text-xs font-medium">Paused</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Uploading now</span>
+                                <span class="text-amber-400">3/35 batch</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Success rate</span>
+                                <span class="text-emerald-400">98.5%</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Failed (retry)</span>
+                                <span>2 items</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="togglePipeline('upload')" class="flex-1 py-2 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm font-medium hover:bg-emerald-500/30 transition">
+                                <i class="fas fa-play mr-1"></i>Resume
+                            </button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-cog mr-1"></i>Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline 4: Money Matrix -->
+                    <div class="card p-5 border-emerald-500/30" id="pipeline-money">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center text-rose-400">
+                                    <i class="fas fa-coins text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">#4 Money Matrix</p>
+                                    <p class="text-xs text-slate-400">Revenue optimization</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium">Auto</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Today's earnings</span>
+                                <span class="text-emerald-400">₹2,340</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Affiliate clicks</span>
+                                <span>145 clicks</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Conversions</span>
+                                <span class="text-emerald-400">12 sales</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="togglePipeline('money')" class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-pause mr-1"></i>Pause
+                            </button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-cog mr-1"></i>Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline 5: AI Brain -->
+                    <div class="card p-5 border-emerald-500/30 pipeline-active" id="pipeline-brain">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-purple-500/20 rounded-xl flex items-center justify-center text-purple-400">
+                                    <i class="fas fa-brain text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">#5 AI Brain</p>
+                                    <p class="text-xs text-slate-400">Self-learning engine</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium">Learning</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Patterns learned</span>
+                                <span class="text-purple-400">847 today</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Predictions made</span>
+                                <span>156 accurate</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Model accuracy</span>
+                                <span class="text-emerald-400">94.3%</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="togglePipeline('brain')" class="flex-1 py-2 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-medium hover:bg-amber-500/30 transition">
+                                <i class="fas fa-pause mr-1"></i>Pause
+                            </button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-cog mr-1"></i>Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline 6: Comment AI -->
+                    <div class="card p-5 border-slate-700" id="pipeline-comment">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-cyan-500/20 rounded-xl flex items-center justify-center text-cyan-400">
+                                    <i class="fas fa-comments text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">#6 Comment AI</p>
+                                    <p class="text-xs text-slate-400">Auto-reply & engage</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-slate-700 text-slate-400 rounded text-xs font-medium">Idle</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Replies today</span>
+                                <span>0</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Engagement boost</span>
+                                <span>-</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Status</span>
+                                <span class="text-slate-500">Scheduled 6PM</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="togglePipeline('comment')" class="flex-1 py-2 bg-emerald-500/20 text-emerald-400 rounded-lg text-sm font-medium hover:bg-emerald-500/30 transition">
+                                <i class="fas fa-play mr-1"></i>Start
+                            </button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-cog mr-1"></i>Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline 7: Brand Outreach -->
+                    <div class="card p-5 border-emerald-500/30" id="pipeline-brand">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-rose-500/20 rounded-xl flex items-center justify-center text-rose-400">
+                                    <i class="fas fa-handshake text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">#7 Brand Outreach</p>
+                                    <p class="text-xs text-slate-400">Auto-pitch & close</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium">Active</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Emails sent today</span>
+                                <span>10/10 limit</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Responses</span>
+                                <span class="text-emerald-400">3 replies</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Deals closed</span>
+                                <span class="text-emerald-400">₹15,000 value</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button onclick="togglePipeline('brand')" class="flex-1 py-2 bg-amber-500/20 text-amber-400 rounded-lg text-sm font-medium hover:bg-amber-500/30 transition">
+                                <i class="fas fa-pause mr-1"></i>Pause
+                            </button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-cog mr-1"></i>Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline 8: Safety Guard -->
+                    <div class="card p-5 border-emerald-500/30" id="pipeline-safety">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-12 h-12 bg-red-500/20 rounded-xl flex items-center justify-center text-red-400">
+                                    <i class="fas fa-shield-alt text-xl"></i>
+                                </div>
+                                <div>
+                                    <p class="font-bold">#8 Safety Guard</p>
+                                    <p class="text-xs text-slate-400">Protection & backup</p>
+                                </div>
+                            </div>
+                            <span class="px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded text-xs font-medium">Guarding</span>
+                        </div>
+                        <div class="space-y-2 mb-4">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Checks today</span>
+                                <span>1,247</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Violations found</span>
+                                <span class="text-emerald-400">0 clean</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-slate-400">Backups made</span>
+                                <span>3 snapshots</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-2">
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition opacity-50 cursor-not-allowed">
+                                Always On
+                            </button>
+                            <button class="flex-1 py-2 bg-slate-800 rounded-lg text-sm hover:bg-slate-700 transition">
+                                <i class="fas fa-cog mr-1"></i>Config
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pipeline 9-12: Placeholder for expansion -->
+                    <div class="card p-5 border-dashed border-slate-700 opacity-50">
+                        <div class="flex items-center justify-center h-full flex-col">
+                            <i class="fas fa-plus text-3xl text-slate-600 mb-2"></i>
+                            <p class="text-slate-500 font-medium">Pipeline #9</p>
+                            <p class="text-xs text-slate-600">Custom pipeline</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ALL 60 FEATURES PAGE -->
+            <div id="page-features" class="page hide p-6 space-y-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="text-3xl font-bold gradient-text">All 60 Features</h2>
+                        <p class="text-slate-400">God Mode Control Center • Click any to run</p>
+                    </div>
+                    <div class="flex gap-3">
+                        <button class="px-4 py-2 bg-emerald-600 rounded-lg hover:bg-emerald-500 transition">
+                            <i class="fas fa-play mr-2"></i>Run All Active
+                        </button>
+                        <button class="px-4 py-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition">
+                            <i class="fas fa-list mr-2"></i>Export List
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feature Categories -->
+                <div class="space-y-8">
+                    
+                    <!-- TIER 1: OMNI-CREATION (Features 1-10) -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center text-indigo-400">
+                                <i class="fas fa-magic"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl">TIER 1: OMNI-CREATION</h3>
+                                <p class="text-sm text-slate-400">Content From Nothing</p>
+                            </div>
+                        </div>
+                        <div class="feature-grid">
+                            <!-- Feature 1 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#01</span>
+                                        <i class="fas fa-eye text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(1)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">Trend Prediction AI</h4>
+                                <p class="text-xs text-slate-400 mb-3">Predicts viral 6 hours early</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                    <span class="text-slate-500">Last: 2m ago</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 2 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#02</span>
+                                        <i class="fas fa-search text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(2)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">Auto-Research Agent</h4>
+                                <p class="text-xs text-slate-400 mb-3">Scrapes web, writes scripts</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Idle</span>
+                                    <span class="text-slate-500">Queue: 0</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 3 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#03</span>
+                                        <i class="fas fa-user-circle text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(3)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">AI Face Generation</h4>
+                                <p class="text-xs text-slate-400 mb-3">Virtual creators, synthetic influencers</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">Beta</span>
+                                    <span class="text-slate-500">50 avatars ready</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 4 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#04</span>
+                                        <i class="fas fa-microphone text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(4)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">Voice Clone Army</h4>
+                                <p class="text-xs text-slate-400 mb-3">50+ unique AI voices</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                    <span class="text-slate-500">12 voices used today</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 5 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#05</span>
+                                        <i class="fas fa-file-video text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(5)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">Text-to-Video</h4>
+                                <p class="text-xs text-slate-400 mb-3">Script to video, no footage</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">80% Accurate</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 6 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#06</span>
+                                        <i class="fas fa-film text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(6)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">AI B-Roll Generator</h4>
+                                <p class="text-xs text-slate-400 mb-3">Custom footage for any topic</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Idle</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 7 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#07</span>
+                                        <i class="fas fa-music text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(7)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">Music Composition AI</h4>
+                                <p class="text-xs text-slate-400 mb-3">Royalty-free background scores</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 8 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#08</span>
+                                        <i class="fas fa-image text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(8)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">Thumbnail Psychology AI</h4>
+                                <p class="text-xs text-slate-400 mb-3">CTR >15% guaranteed</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">94% Avg CTR</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 9 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#09</span>
+                                        <i class="fas fa-heading text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(9)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">Title Emotion Manipulator</h4>
+                                <p class="text-xs text-slate-400 mb-3">Scientific clickbait</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+
+                            <!-- Feature 10 -->
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#10</span>
+                                        <i class="fas fa-align-left text-indigo-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(10)" class="px-3 py-1 bg-indigo-600/20 text-indigo-400 rounded text-xs hover:bg-indigo-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-indigo-400 transition">Description SEO Bot</h4>
+                                <p class="text-xs text-slate-400 mb-3">Ranks #1 for any search</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TIER 2: OMNI-PRESENCE (Features 11-20) -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl">TIER 2: OMNI-PRESENCE</h3>
+                                <p class="text-sm text-slate-400">Every Platform, Every Format</p>
+                            </div>
+                        </div>
+                        <div class="feature-grid">
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#11</span>
+                                        <i class="fas fa-desktop text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(11)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Platform Native AI</h4>
+                                <p class="text-xs text-slate-400 mb-3">Content in platform's "language"</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#12</span>
+                                        <i class="fas fa-clone text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(12)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Format Shapeshifter</h4>
+                                <p class="text-xs text-slate-400 mb-3">1 source = 10 formats</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#13</span>
+                                        <i class="fas fa-language text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(13)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Language Morph</h4>
+                                <p class="text-xs text-slate-400 mb-3">20 languages auto-translate</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">90% Accurate</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#14</span>
+                                        <i class="fas fa-globe-americas text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(14)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Cultural Adapter</h4>
+                                <p class="text-xs text-slate-400 mb-3">Local feel, global scale</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Idle</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#15</span>
+                                        <i class="fas fa-broadcast-tower text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(15)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Live Stream AI</h4>
+                                <p class="text-xs text-slate-400 mb-3">24/7 AI livestreams</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Future</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#16</span>
+                                        <i class="fas fa-users text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(16)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Community Manager AI</h4>
+                                <p class="text-xs text-slate-400 mb-3">Auto-reply & fan relations</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#17</span>
+                                        <i class="fas fa-user-friends text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(17)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Collab Broker AI</h4>
+                                <p class="text-xs text-slate-400 mb-3">Auto-DM creators, negotiate</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">80% Auto</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#18</span>
+                                        <i class="fas fa-exchange-alt text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(18)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Cross-Pollination</h4>
+                                <p class="text-xs text-slate-400 mb-3">Share audience between props</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#19</span>
+                                        <i class="fas fa-share-alt text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(19)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">Viral Loop Creator</h4>
+                                <p class="text-xs text-slate-400 mb-3">Forces shares design</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">90% Auto</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#20</span>
+                                        <i class="fas fa-bolt text-emerald-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(20)" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 rounded text-xs hover:bg-emerald-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-emerald-400 transition">News Jacking Bot</h4>
+                                <p class="text-xs text-slate-400 mb-3">Instant breaking news content</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TIER 3: OMNI-MONEY (Features 21-32) -->
+                    <div>
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center text-rose-400">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-bold text-xl">TIER 3: OMNI-MONEY</h3>
+                                <p class="text-sm text-slate-400">12+ Income Streams</p>
+                            </div>
+                        </div>
+                        <div class="feature-grid">
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#21</span>
+                                        <i class="fas fa-ad text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(21)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">AdSense Optimizer</h4>
+                                <p class="text-xs text-slate-400 mb-3">Max RPM testing</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#22</span>
+                                        <i class="fas fa-robot text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(22)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Sponsorship AI Agent</h4>
+                                <p class="text-xs text-slate-400 mb-3">Finds brands, pitches, closes</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">80% Auto</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#23</span>
+                                        <i class="fas fa-link text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(23)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Affiliate Matrix</h4>
+                                <p class="text-xs text-slate-400 mb-3">10+ links per content</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-emerald-500/10 text-emerald-400 rounded">Active</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#24</span>
+                                        <i class="fas fa-book text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(24)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Digital Product Factory</h4>
+                                <p class="text-xs text-slate-400 mb-3">Ebooks, courses, templates</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Future</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#25</span>
+                                        <i class="fas fa-tshirt text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(25)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Merch Designer + Seller</h4>
+                                <p class="text-xs text-slate-400 mb-3">Print-on-demand empire</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Future</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#26</span>
+                                        <i class="fas fa-crown text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(26)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Membership Cult Builder</h4>
+                                <p class="text-xs text-slate-400 mb-3">Exclusive communities</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">80% Auto</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#27</span>
+                                        <i class="fas fa-briefcase text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(27)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Consulting Lead Gen</h4>
+                                <p class="text-xs text-slate-400 mb-3">Expert positioning</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Future</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#28</span>
+                                        <i class="fas fa-store text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(28)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Channel Flipper</h4>
+                                <p class="text-xs text-slate-400 mb-3">Build and sell 100k channels</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Future</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#29</span>
+                                        <i class="fas fa-bullhorn text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(29)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Ad Network Creator</h4>
+                                <p class="text-xs text-slate-400 mb-3">Run ads for others</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Future</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#30</span>
+                                        <i class="fab fa-bitcoin text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(30)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Crypto/NFT Integration</h4>
+                                <p class="text-xs text-slate-400 mb-3">Fan tokens, NFT drops</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-slate-700 text-slate-400 rounded">Future</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#31</span>
+                                        <i class="fas fa-lock text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(31)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Premium Content Gating</h4>
+                                <p class="text-xs text-slate-400 mb-3">Paywall best content</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">90% Auto</span>
+                                </div>
+                            </div>
+
+                            <div class="feature-card group">
+                                <div class="flex items-start justify-between mb-3">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-xs font-mono text-slate-500">#32</span>
+                                        <i class="fas fa-envelope text-rose-400"></i>
+                                    </div>
+                                    <button onclick="runFeature(32)" class="px-3 py-1 bg-rose-600/20 text-rose-400 rounded text-xs hover:bg-rose-600/30 transition">
+                                        <i class="fas fa-play mr-1"></i>Run
+                                    </button>
+                                </div>
+                                <h4 class="font-semibold mb-1 group-hover:text-rose-400 transition">Sponsored Newsletter</h4>
+                                <p class="text-xs text-slate-400 mb-3">Email + sponsorships</p>
+                                <div class="flex items-center gap-2 text-xs">
+                                    <span class="px-2 py-0.5 bg-amber-500/10 text-amber-400 rounded">80% Auto</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- TIER 4-6 Summary (Features 33-60) -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="card p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-purple-500/20 rounded-lg flex items-center justify-center text-purple-400">
+                                    <i class="fas fa-brain"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold">TIER 4: OMNI-INTELLIGENCE</h3>
+                                    <p class="text-xs text-slate-400">Features 33-42</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#33 Algorithm Whisperer</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#34 Competitor Assassin</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#35 Saturation Detector</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#36 Audience Clone AI</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#37 Engagement Manipulation</span>
+                                    <span class="text-amber-400 text-xs">80%</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#38 Shadowban Immunity</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#39 Bot Detection Evasion</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#40 Multi-Identity Manager</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#41 Legal Shield AI</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#42 Crisis Response Bot</span>
+                                    <span class="text-amber-400 text-xs">90%</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 py-2 bg-purple-600/20 text-purple-400 rounded-lg hover:bg-purple-600/30 transition text-sm">
+                                Manage Tier 4 Features
+                            </button>
+                        </div>
+
+                        <div class="card p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-cyan-500/20 rounded-lg flex items-center justify-center text-cyan-400">
+                                    <i class="fas fa-rocket"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold">TIER 5: OMNI-SCALE</h3>
+                                    <p class="text-xs text-slate-400">Features 43-50</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#43 Auto-Property Spawner</span>
+                                    <span class="text-amber-400 text-xs">80%</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#44 Niche Explosion AI</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#45 Content Recycling</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#46 Seasonal Adaptation</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#47 Event Hijacker</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#48 Influencer Replication</span>
+                                    <span class="text-amber-400 text-xs">90%</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#49 Viral Archive Mining</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#50 Trend Lifecycle Predictor</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 py-2 bg-cyan-600/20 text-cyan-400 rounded-lg hover:bg-cyan-600/30 transition text-sm">
+                                Manage Tier 5 Features
+                            </button>
+                        </div>
+
+                        <div class="card p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 bg-amber-500/20 rounded-lg flex items-center justify-center text-amber-400">
+                                    <i class="fas fa-gamepad"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-bold">TIER 6: OMNI-CONTROL</h3>
+                                    <p class="text-xs text-slate-400">Features 51-60</p>
+                                </div>
+                            </div>
+                            <div class="space-y-2 text-sm">
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#51 Voice Command</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#52 One-Word Execution</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#53 Video Proof on Demand</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#54 Earnings Prediction</span>
+                                    <span class="text-amber-400 text-xs">90%</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#55 Smart Suggestions</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#56 Emergency Protocols</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#57 Clone System</span>
+                                    <span class="text-amber-400 text-xs">80%</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#58 Auto-Upgrade</span>
+                                    <span class="text-slate-500 text-xs">70%</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#59 Wealth Distribution</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                                <div class="flex justify-between p-2 bg-slate-900/30 rounded">
+                                    <span>#60 Legacy Mode</span>
+                                    <span class="text-emerald-400 text-xs">Active</span>
+                                </div>
+                            </div>
+                            <button class="w-full mt-4 py-2 bg-amber-600/20 text-amber-400 rounded-lg hover:bg-amber-600/30 transition text-sm">
+                                Manage Tier 6 Features
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Other Pages Placeholder -->
+            <div id="page-content" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fas fa-video text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">Content Studio</h2>
+                    <p class="text-slate-400">Full content creation interface</p>
+                </div>
+            </div>
+
+            <div id="page-money" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fas fa-rupee-sign text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">Revenue Center</h2>
+                    <p class="text-slate-400">Complete money management dashboard</p>
+                </div>
+            </div>
+
+            <div id="page-analytics" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fas fa-chart-line text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">Analytics Hub</h2>
+                    <p class="text-slate-400">Deep analytics and insights</p>
+                </div>
+            </div>
+
+            <div id="page-ai-studio" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fas fa-robot text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">AI Studio</h2>
+                    <p class="text-slate-400">All AI tools and generators</p>
+                </div>
+            </div>
+
+            <div id="page-properties" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fas fa-globe text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">Properties Manager</h2>
+                    <p class="text-slate-400">Manage all 80 properties</p>
+                </div>
+            </div>
+
+            <div id="page-scheduler" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fas fa-clock text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">Smart Scheduler</h2>
+                    <p class="text-slate-400">Automation and timing controls</p>
+                </div>
+            </div>
+
+            <div id="page-brands" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fas fa-handshake text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">Brand Deals</h2>
+                    <p class="text-slate-400">Sponsorship pipeline CRM</p>
+                </div>
+            </div>
+
+            <div id="page-telegram" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fab fa-telegram text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">Telegram Bot Setup</h2>
+                    <p class="text-slate-400">Optional backup control center</p>
+                </div>
+            </div>
+
+            <div id="page-settings" class="page hide p-6">
+                <div class="card p-12 text-center">
+                    <i class="fas fa-cog text-6xl text-slate-600 mb-4"></i>
+                    <h2 class="text-2xl font-bold mb-2">System Settings</h2>
+                    <p class="text-slate-400">Configuration and preferences</p>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script>
+        // Navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hide'));
+            document.getElementById('app-layout').classList.add('hide');
+            
+            // Show requested page
+            if (pageName === 'login') {
+                document.getElementById('page-login').classList.remove('hide');
+            } else {
+                document.getElementById('app-layout').classList.remove('hide');
+                document.getElementById('page-' + pageName).classList.remove('hide');
+                
+                // Update title
+                const titles = {
+                    'dashboard': 'Dashboard',
+                    'pipelines': 'All Pipelines',
+                    'content': 'Content Studio',
+                    'money': 'Revenue Center',
+                    'analytics': 'Analytics Hub',
+                    'ai-studio': 'AI Studio',
+                    'properties': 'Properties',
+                    'scheduler': 'Scheduler',
+                    'features': 'All 60 Features',
+                    'brands': 'Brand Deals',
+                    'telegram': 'Telegram Setup',
+                    'settings': 'Settings'
+                };
+                document.getElementById('page-title').textContent = titles[pageName] || 'Dashboard';
+                
+                // Update sidebar
+                document.querySelectorAll('.sidebar-link').forEach(link => {
+                    link.classList.remove('active', 'border-indigo-500', 'text-white');
+                    link.classList.add('border-transparent', 'text-slate-400');
+                });
+                if (event && event.target) {
+                    event.target.closest('a')?.classList.add('active', 'border-indigo-500', 'text-white');
+                    event.target.closest('a')?.classList.remove('border-transparent', 'text-slate-400');
+                }
+            }
+        }
+
+        // Toggle Pipeline
+        function togglePipeline(id) {
+            const btn = document.getElementById('btn-' + id) || document.getElementById('pipeline-' + id);
+            const isRunning = btn.classList.contains('border-emerald-500');
+            
+            if (isRunning) {
+                // Pause
+                btn.classList.remove('border-emerald-500', 'pipeline-active');
+                btn.classList.add('border-amber-500');
+                // Update status text
+                const statusSpan = btn.querySelector('span:last-child');
+                if (statusSpan) {
+                    statusSpan.className = 'mt-2 inline-flex items-center gap-1 text-xs px-2 py-1 bg-amber-500/20 text-amber-400 rounded-full';
+                    statusSpan.innerHTML = '<span class="w-1.5 h-1.5 bg-amber-500 rounded-full"></span>Paused';
+                }
+            } else {
+                // Start
+                btn.classList.remove('border-amber-500');
+                btn.classList.add('border-emerald-500', 'pipeline-active');
+                const statusSpan = btn.querySelector('span:last-child');
+                if (statusSpan) {
+                    statusSpan.className = 'mt-2 inline-flex items-center gap-1 text-xs px-2 py-1 bg-emerald-500/20 text-emerald-400 rounded-full';
+                    statusSpan.innerHTML = '<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>Running';
+                }
+            }
+        }
+
+        // Run Individual Feature
+        function runFeature(id) {
+            alert('Running Feature #' + id + '\n\nThis would execute the specific AI feature in the backend.');
+        }
+
+        // Initialize
+        showPage('login');
+    </script>
+</body>
+</html>
             color: #6366F1;
         }
         .btn-primary { 
